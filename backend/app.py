@@ -50,7 +50,7 @@ def interact_with_model(input_text):
     ## encode input text 
     encoded_input = tokenizer(generate_prompt_from_question(input_text), return_tensors="pt",padding=True)["input_ids"]
     ## generate output from model
-    output = model.generate(encoded_input, max_length=500, temperature=0.7,do_sample=True,pad_token_id=tokenizer.eos_token_id)
+    output = model.generate(encoded_input, max_length=800, temperature=0.7,do_sample=True,pad_token_id=tokenizer.eos_token_id)
     ## decode output
     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
     print("response ",generated_text)

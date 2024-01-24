@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Button, Input, Space } from "antd";
+import { Button, Card, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 function App() {
@@ -9,6 +9,10 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const getChankyaTeaching = async () => {
+    if(loading){
+      console.log('already a request in progress ')
+      return 
+    }
     try {
       setLoading(true);
       const response = await fetch("http://localhost:8000/predict_output", {
@@ -19,7 +23,7 @@ function App() {
         body: JSON.stringify({ text: inputText }),
       });
       const result = await response.json();
-      setResult(`Chankya's Teaching: ${result["output"]}`);
+      setResult(`${result["output"]}`);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -37,7 +41,7 @@ function App() {
           width: "60%",
           marginLeft: "20%",
           marginTop: "10%",
-          marginBottom:"10%",
+          marginBottom: "10%",
           display: "flex",
           justifyContent: "space-between",
           border: "1px solid grey",
@@ -56,17 +60,39 @@ function App() {
           placeholder="E.g., How to determine true friendship?"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
+          onPressEnter={getChankyaTeaching}
         />
         <Space>
-          <Button
-            type="secondary"
-            icon={<SearchOutlined />}
-            onClick={getChankyaTeaching}
-          />
+          {!loading ? (
+            <Button
+              type="secondary"
+              icon={<SearchOutlined />}
+              style={{
+                color: "whitesmoke",
+              }}
+              hidden={loading}
+              onClick={getChankyaTeaching}
+            />
+          ) : (
+            ""
+          )}
         </Space>
       </div>
-
-      <div id="result">{loading ? "thinking ..." : result}</div>
+      <Card
+        bordered={false}
+        type="inner"
+        style={{
+          backgroundColor: "#000000",
+          color: "#04A57D",
+          marginLeft: "20%",
+          marginTop: "5%",
+          marginBottom: "5%",
+          width: "60%",
+          fontSize: "20px",
+        }}
+      >
+        {loading ? "thinking ..." : result}
+      </Card>
     </div>
   );
 }
