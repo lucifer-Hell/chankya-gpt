@@ -4,9 +4,11 @@ import "./App.css";
 function App() {
   const [inputText, setInputText] = useState("");
   const [result, setResult] = useState("");
+  const [loading,setLoading] =useState(false);
 
   const getChankyaTeaching = async () => {
     try {
+      setLoading(true)
       const response = await fetch("http://localhost:8000/predict_output", {
         method: "POST",
         headers: {
@@ -16,9 +18,11 @@ function App() {
       });
       const result = await response.json();
       setResult(`Chankya's Teaching: ${result["output"]}`);
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching data:", error);
       setResult("An error occurred. Please try again.");
+      setLoading(false)
     }
   };
 
@@ -33,8 +37,8 @@ function App() {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
-      <button onClick={getChankyaTeaching}>Get Chankya's Teaching</button>
-      <div id="result">{result}</div>
+      <button disabled={loading} onClick={getChankyaTeaching}>Get Chankya's Teaching</button>
+      <div id="result">{loading?"thinking ...":result}</div>
     </div>
   );
 }
