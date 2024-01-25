@@ -60,7 +60,6 @@ function App() {
           placeholder="E.g., How to determine true friendship?"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          onPressEnter={getChankyaTeaching}
         />
         <Space>
           {!loading ? (
@@ -91,7 +90,7 @@ function App() {
           fontSize: "20px",
         }}
       >
-        {loading ? "thinking ..." : result}
+        {loading ? "thinking ..." : result?result:"Type your question and click on search"}
       </Card>
     </div>
   );
