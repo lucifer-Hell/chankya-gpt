@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import { Button, Card, Input, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import TypeIt from "typeit-react";
 
 function App() {
   const [inputText, setInputText] = useState("");
@@ -90,7 +91,7 @@ function App() {
           fontSize: "20px",
         }}
       >
-        {loading ? "thinking ..." : result?result:"Type your question and click on search"}
+        {loading ? "thinking ..." : result?<TypeIt options={{speed:6}}>{result}</TypeIt>:"Type your question and click on search"}
       </Card>
     </div>
   );
