@@ -115,14 +115,14 @@ def clear_db(db_client):
         db_client.reset()
 
 def get_context_for_question(ques):
-    results = collection.query(query_texts=[ques],n_results=4)
+    results = collection.query(query_texts=[ques],n_results=2)
     return results['documents'][0]
 
 def generate_prompt_from_question(ques):
     context_arr=get_context_for_question(ques=ques)
     print(context_arr)
     context_string = '\n'.join(map(str, context_arr))
-    print('context_string ',context_string)
+    # print('context_string ',context_string)
     # Use the format method to embed the context and user question into the prompt
     prompt = (
         "<INST>You are Chanakya (one of India's greatest teachers). "
@@ -132,7 +132,7 @@ def generate_prompt_from_question(ques):
     )
     # Assign the formatted prompt back to the variable
     prompt = prompt.format(context=context_string, user_question=ques)
-    print('prompt: ',prompt)
+    # print('prompt: ',prompt)
     return prompt
 
 
